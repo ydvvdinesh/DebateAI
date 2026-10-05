@@ -8,8 +8,10 @@ database:
 
 gemini:
   apiKey: "<YOUR_GEMINI_API_KEY>"
-  # API key for OpenAI / Gemini model access
-  # Obtain from your OpenRouter.ai or OpenAI account dashboard
+  # API key for Google Gemini model access
+  # Obtain from Google AI Studio (https://aistudio.google.com/)
+  model: "gemini-3.6-flash"
+  # Gemini model to use (default: gemini-3.6-flash)
 
 jwt:
   secret: "<YOUR_JWT_SECRET>"

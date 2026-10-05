@@ -8,7 +8,13 @@ import (
 	"google.golang.org/genai"
 )
 
-const defaultGeminiModel = "gemini-3.6-flash"
+var configuredGeminiModel = "gemini-3.6-flash"
+
+func SetGeminiModel(model string) {
+	if model != "" {
+		configuredGeminiModel = model
+	}
+}
 
 func initGemini(apiKey string) (*genai.Client, error) {
 	config := &genai.ClientConfig{}
@@ -49,5 +55,5 @@ func cleanModelOutput(text string) string {
 }
 
 func generateDefaultModelText(ctx context.Context, prompt string) (string, error) {
-	return generateModelText(ctx, defaultGeminiModel, prompt)
+	return generateModelText(ctx, configuredGeminiModel, prompt)
 }

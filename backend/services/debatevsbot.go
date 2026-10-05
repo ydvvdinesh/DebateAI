@@ -27,6 +27,10 @@ func InitDebateVsBotService(cfg *config.Config) {
 		return
 	}
 
+	if cfg.Gemini.Model != "" {
+		SetGeminiModel(cfg.Gemini.Model)
+	}
+
 	var err error
 	geminiClient, err = initGemini(cfg.Gemini.ApiKey)
 	if err != nil {

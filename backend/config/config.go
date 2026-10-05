@@ -25,6 +25,7 @@ type Config struct {
 
 	Gemini struct {
 		ApiKey string `yaml:"apiKey"`
+		Model  string `yaml:"model"`
 	} `yaml:"gemini"`
 
 	Database struct {
@@ -82,6 +83,9 @@ func LoadConfig(path string) (*Config, error) {
 	}
 	if envGemini := os.Getenv("GEMINI_API_KEY"); envGemini != "" {
 		cfg.Gemini.ApiKey = envGemini
+	}
+	if envGeminiModel := os.Getenv("GEMINI_MODEL"); envGeminiModel != "" {
+		cfg.Gemini.Model = envGeminiModel
 	}
 	if envJWT := os.Getenv("JWT_SECRET"); envJWT != "" {
 		cfg.JWT.Secret = envJWT
