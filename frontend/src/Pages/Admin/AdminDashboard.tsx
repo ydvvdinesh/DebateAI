@@ -55,7 +55,7 @@ type FormattedSnapshot = SnapshotLike & {
   newUsersToday: number;
 };
 
-const USE_MANUAL_ANALYTICS = true;
+const USE_MANUAL_ANALYTICS = false;
 
 const MANUAL_HISTORY_POINTS: Array<{
   daysAgo: number;
@@ -373,7 +373,14 @@ export default function AdminDashboard() {
       return;
     }
     setToken(adminToken);
-    setAdmin(JSON.parse(adminData));
+    try {
+      setAdmin(JSON.parse(adminData));
+    } catch {
+      localStorage.removeItem("admin");
+      localStorage.removeItem("adminToken");
+      navigate("/admin/login");
+      return;
+    }
     loadData(adminToken);
   }, [loadData, navigate]);
 
