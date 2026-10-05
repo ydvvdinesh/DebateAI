@@ -13,7 +13,6 @@ export class SpeechRecognitionTest {
       if (SpeechRecognitionCtor) {
         this.recognition = new SpeechRecognitionCtor();
         this.setupRecognition();
-      } else {
       }
     }
   }
@@ -26,34 +25,6 @@ export class SpeechRecognitionTest {
     this.recognition.lang = 'en-US';
     this.recognition.maxAlternatives = 1;
 
-    this.recognition.onstart = () => {
-    };
-
-    this.recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let interimTranscript = '';
-      let finalTranscript = '';
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        const transcript = result[0].transcript;
-
-        if (result.isFinal) {
-          finalTranscript += transcript + ' ';
-        } else {
-          interimTranscript += transcript;
-        }
-      }
-
-      if (finalTranscript) {
-      }
-      if (interimTranscript) {
-      }
-    };
-
-    this.recognition.onend = () => {
-    };
-
-    // ✅ Fix typing issue with type assertion
     this.recognition.onerror = (event: Event) => {
       const err = event as unknown as SpeechRecognitionErrorEvent;
       console.error('Speech recognition error', err.error, err.message);
@@ -68,7 +39,7 @@ export class SpeechRecognitionTest {
     try {
       this.recognition.start();
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -77,7 +48,8 @@ export class SpeechRecognitionTest {
     if (this.recognition) {
       try {
         this.recognition.stop();
-      } catch (error) {
+      } catch {
+        // Ignore stop errors if already stopped
       }
     }
   }
@@ -91,7 +63,7 @@ export class SpeechRecognitionTest {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

@@ -11,7 +11,7 @@ interface ThemeContextStructure {
     theme: ThemeOptions, toggleTheme: () => void
 }
 
-var defaultThemeContext: ThemeContextStructure = {
+const defaultThemeContext: ThemeContextStructure = {
     theme: ThemeOptions.Light,
     toggleTheme: () => { }
 }
@@ -27,15 +27,15 @@ function getInitialTheme() {
     //get theme to browser default
     let newTheme: ThemeOptions;
 
-    let systemThemeCodeStr = localStorage.getItem("Theme");
+    const systemThemeCodeStr = localStorage.getItem("Theme");
     if (systemThemeCodeStr == null) {
-        let defaultBrowserTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? ThemeOptions.Light : ThemeOptions.Dark;
+        const defaultBrowserTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? ThemeOptions.Light : ThemeOptions.Dark;
         newTheme = defaultBrowserTheme;
     }
     else {
         //learned importance of validation
         //validation is for the code which other people will write on top of mine
-        let systemThemeCode = +systemThemeCodeStr;
+        const systemThemeCode = +systemThemeCodeStr;
         if (validateThemeCode(systemThemeCode)) {
             //learned value to its correlated enum
             newTheme = systemThemeCode as ThemeOptions;
@@ -47,7 +47,7 @@ function getInitialTheme() {
 
     return newTheme;
 }
-export function ThemeProvider({ children }: { children: any }): any {
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<ThemeOptions>(getInitialTheme());
 
     useEffect(() => {
