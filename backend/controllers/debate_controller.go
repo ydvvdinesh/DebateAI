@@ -81,7 +81,17 @@ func GetDebateTranscriptHandler(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "room not found"})
 		return
 	}
-	c.JSON(http.StatusOK, room)
+
+	room.Mutex.Lock()
+	messagesCopy := make([]DebateMessage, len(room.Messages))
+	copy(messagesCopy, room.Messages)
+	roomIDCopy := room.RoomID
+	room.Mutex.Unlock()
+
+	c.JSON(http.StatusOK, gin.H{
+		"roomId":   roomIDCopy,
+		"messages": messagesCopy,
+	})
 }
 
 func persistDebateRoom(room *DebateRoom) {
